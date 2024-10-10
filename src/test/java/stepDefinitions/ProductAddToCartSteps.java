@@ -23,6 +23,8 @@ public class ProductAddToCartSteps {
     String firstProductPriceOnDetailsPage;
     String secondProductPriceOnResultsPage;
     String secondProductPriceOnDetailsPage;
+    String firstAddedProductToCartPrice;
+    String secondAddedProductToCartPrice;
     String totalPriceOnSummaryPage;
 
     public ProductAddToCartSteps() {
@@ -61,6 +63,7 @@ public class ProductAddToCartSteps {
         System.out.println("firstProductPriceOnDetailsPage :" +firstProductPriceOnDetailsPage);
         Assert.assertTrue("Button is not displayed",productDetailsPage.isclickBtnDisplayed());
         productDetailsPage.clickButton();
+        Assert.assertEquals("Price is mismatching on details & results page",firstProductPriceOnResultsPage,firstProductPriceOnDetailsPage);
         resultsPage.getPageURL(url);
     }
 
@@ -72,17 +75,19 @@ public class ProductAddToCartSteps {
         resultsPage.selectSecondProduct();
         secondProductPriceOnDetailsPage = productDetailsPage.getProductPrice();
         System.out.println("secondProductPriceOnDetailsPage :" +secondProductPriceOnDetailsPage);
+        Assert.assertEquals("Price is mismatching on details & results page",secondProductPriceOnResultsPage,secondProductPriceOnDetailsPage);
         productDetailsPage.clickButton();
     }
 
     @And("Verify if user could see the prices matching on summary and details page")
     public void verifyIfUserCouldSeeThePricesMatchingOnSummaryAndDetailsPage() {
+        dashboardPage.clickCartBtn();
         Assert.assertTrue("Second product is not displayed", summaryPage.isPageTitleDisplayed());
+        firstAddedProductToCartPrice=summaryPage.getFirstAddedProductPrice();
+        Assert.assertEquals("Price is mismatching on summary & details page",firstProductPriceOnDetailsPage,firstAddedProductToCartPrice);
+        secondAddedProductToCartPrice=summaryPage.getSecondAddedProductPrice();
+        Assert.assertEquals("Price is mismatching on summary & details page",secondProductPriceOnDetailsPage,secondAddedProductToCartPrice);
         totalPriceOnSummaryPage = summaryPage.getTotalPrice();
-        Log.info(firstProductPriceOnResultsPage);
-        Log.info(secondProductPriceOnResultsPage);
-        Log.info(firstProductPriceOnDetailsPage);
-        Log.info(secondProductPriceOnDetailsPage);
-        Log.info(totalPriceOnSummaryPage);
+        Assert.assertEquals("Sum of the Added products is not matching",totalPriceOnSummaryPage,(firstAddedProductToCartPrice+secondAddedProductToCartPrice));
     }
 }

@@ -13,12 +13,22 @@ public class SummaryPage extends Base {
     }
 
     By pageTitle = By.xpath("//*[contains(@class,'sc-cart-header')]");
+    By firstAddedToCartPrice = By.xpath("(//*[@class='sc-item-price-block'])[2]/child::*[1]");
+    By secondAddedToCartPrice = By.xpath("(//*[@class='sc-item-price-block'])[1]/child::*[1]");
+
     By totalPrice = By.xpath("//*[@id='sc-subtotal-amount-activecart']");
 
     public boolean isPageTitleDisplayed() {
         return waitForElement(pageTitle).isDisplayed();
     }
 
+    public String getFirstAddedProductPrice() {
+        return waitForElement(firstAddedToCartPrice).getText();
+    }
+
+    public String getSecondAddedProductPrice() {
+        return waitForElement(secondAddedToCartPrice).getText();
+    }
 
     public String getTotalPrice() {
         return waitForElement(totalPrice).getText();

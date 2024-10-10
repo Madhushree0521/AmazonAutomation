@@ -2,9 +2,11 @@ package stepDefinitions;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
+import io.cucumber.java.zh_cn.假如;
 import resources.Base;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 public class Hooks extends Base
 {
@@ -14,6 +16,7 @@ public class Hooks extends Base
         driver=browserInvocation();
         driver.get(prop.getProperty("URL"));
         driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(5000, TimeUnit.MILLISECONDS);
     }
     @After
     public void AfterSteps()
