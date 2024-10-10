@@ -79,7 +79,7 @@ public class ProductAddToCartSteps {
 
     @And("Verify if user could see the prices matching on summary and details page")
     public void verifyIfUserCouldSeeThePricesMatchingOnSummaryAndDetailsPage() {
-        dashboardPage.clickCartBtn();
+        summaryPage.clickGoToCartBtn();
         Assert.assertTrue("Second product is not displayed", summaryPage.isPageTitleDisplayed());
         firstAddedProductToCartPrice = summaryPage.getFirstAddedProductPrice();
         Assert.assertEquals("Price is mismatching on summary & details page", firstProductPriceOnDetailsPage, firstAddedProductToCartPrice);
