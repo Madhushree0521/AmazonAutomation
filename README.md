@@ -16,11 +16,13 @@ BDD framework for automation using Selenium Cucumber
 Add the feature file under test/java/featurefiles
 
 	@Regression
-	Scenario: Open the flyDubai site and confirm the ticket booking
-	When User enter the route from "Dubai" to "Bengaluru" on April for "2" passengers
-	Then User click on search button
-	Then verify if user lands on the flights result page
-	And user click on the flight tab and select one fare brand 
+	Scenario: Comparison of product price
+    	Given User Verify the Amazon dashboard title
+    	And User click on search bar
+    	Then User search for product "toys"
+    	And user clicks on the first product and add to cart
+    	Then user clicks on the second product and add to cart
+    	And Verify if user could see the prices matching on summary and details page
 
 Create the Runner
 Add the test runner file under test/java/cucumberOptions
@@ -32,7 +34,7 @@ Add the test runner file under test/java/cucumberOptions
 	@RunWith(Cucumber.class)
 	@CucumberOptions(
 	
-			features = { "src/test/java/featureFiles/BookFlight.feature" }, glue = { "stepDefinitions" },
+			features = { "src/test/java/featureFiles/ProductPriceComparison.feature" }, glue = { "stepDefinitions" },
 			plugin = {"io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"}
 	
 	)
