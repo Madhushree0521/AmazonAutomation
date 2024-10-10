@@ -1,0 +1,88 @@
+package stepDefinitions;
+
+import Page_Object_Factory.DashboardPage;
+import Page_Object_Factory.ProductDetailsPage;
+import Page_Object_Factory.ResultsPage;
+import Page_Object_Factory.SummaryPage;
+import io.cucumber.java.bs.A;
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import org.junit.Assert;
+import org.openqa.selenium.WebDriver;
+import resources.Log;
+
+public class ProductAddToCartSteps {
+
+    WebDriver driver;
+    DashboardPage dashboardPage;
+    ResultsPage resultsPage;
+    ProductDetailsPage productDetailsPage;
+    SummaryPage summaryPage;
+    String firstProductPriceOnResultsPage;
+    String firstProductPriceOnDetailsPage;
+    String secondProductPriceOnResultsPage;
+    String secondProductPriceOnDetailsPage;
+    String totalPriceOnSummaryPage;
+
+    public ProductAddToCartSteps() {
+        dashboardPage = new DashboardPage(driver);
+        resultsPage = new ResultsPage(driver);
+        productDetailsPage = new ProductDetailsPage(driver);
+        summaryPage = new SummaryPage(driver);
+    }
+
+    @Given("User Verify the Amazon dashboard title")
+    public void userVerifyTheAmazonDashboardTitle() {
+        dashboardPage.skipCatcha();
+        Assert.assertTrue("Amazon Page is not displayed", dashboardPage.verifyPageTitle());
+    }
+
+    @And("User click on search bar")
+    public void userClickOnSearchBar() {
+        Assert.assertTrue("Search Bar is not displayed", dashboardPage.issearchBarDisplayed());
+        dashboardPage.clickSeachBar();
+    }
+
+    @Then("User search for product {string}")
+    public void userSearchForProduct(String product) {
+        dashboardPage.enterTextInSearchbar(product);
+        dashboardPage.selectProduct(product);
+    }
+
+    @And("user clicks on the first product and add to cart")
+    public void userClicksOnTheFirstProductAndAddToCart()  {
+        String url = resultsPage.getCurrentUrl();
+        Assert.assertTrue("First product is not displayed", resultsPage.isFirstProductDisplayed());
+        firstProductPriceOnResultsPage = resultsPage.getfirstProductPrice();
+        System.out.println("firstProductPriceOnResultsPage :"+firstProductPriceOnResultsPage);
+        resultsPage.selectFirstProduct();
+        firstProductPriceOnDetailsPage = productDetailsPage.getProductPrice();
+        System.out.println("firstProductPriceOnDetailsPage :" +firstProductPriceOnDetailsPage);
+        Assert.assertTrue("Button is not displayed",productDetailsPage.isclickBtnDisplayed());
+        productDetailsPage.clickButton();
+        resultsPage.getPageURL(url);
+    }
+
+    @Then("user clicks on the second product and add to cart")
+    public void userClicksOnTheSecondProductAndAddToCart() {
+        Assert.assertTrue("Second product is not displayed", resultsPage.isSecondProducttDisplayed());
+        secondProductPriceOnResultsPage = resultsPage.getSecondProductPrice();
+        System.out.println("secondProductPriceOnResultsPage :" +secondProductPriceOnResultsPage);
+        resultsPage.selectSecondProduct();
+        secondProductPriceOnDetailsPage = productDetailsPage.getProductPrice();
+        System.out.println("secondProductPriceOnDetailsPage :" +secondProductPriceOnDetailsPage);
+        productDetailsPage.clickButton();
+    }
+
+    @And("Verify if user could see the prices matching on summary and details page")
+    public void verifyIfUserCouldSeeThePricesMatchingOnSummaryAndDetailsPage() {
+        Assert.assertTrue("Second product is not displayed", summaryPage.isPageTitleDisplayed());
+        totalPriceOnSummaryPage = summaryPage.getTotalPrice();
+        Log.info(firstProductPriceOnResultsPage);
+        Log.info(secondProductPriceOnResultsPage);
+        Log.info(firstProductPriceOnDetailsPage);
+        Log.info(secondProductPriceOnDetailsPage);
+        Log.info(totalPriceOnSummaryPage);
+    }
+}
