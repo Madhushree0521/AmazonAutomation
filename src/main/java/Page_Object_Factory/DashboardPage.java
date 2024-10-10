@@ -1,6 +1,5 @@
 package Page_Object_Factory;
 
-import jdk.nashorn.internal.runtime.ECMAException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -63,8 +62,7 @@ public class DashboardPage extends Base {
     public void clickCartBtn() {
         try {
             waitForElement(cartButton).click();
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             e.getMessage();
         }
 
