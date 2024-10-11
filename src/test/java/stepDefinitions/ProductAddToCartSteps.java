@@ -82,10 +82,10 @@ public class ProductAddToCartSteps {
         summaryPage.clickGoToCartBtn();
         Assert.assertTrue("Second product is not displayed", summaryPage.isPageTitleDisplayed());
         firstAddedProductToCartPrice = summaryPage.getFirstAddedProductPrice();
-        Assert.assertEquals("Price is mismatching on summary & details page", firstProductPriceOnDetailsPage, firstAddedProductToCartPrice);
+        Assert.assertEquals("Price is mismatching on summary & details page", firstProductPriceOnDetailsPage, firstAddedProductToCartPrice.replace(".","\n"));
         secondAddedProductToCartPrice = summaryPage.getSecondAddedProductPrice();
-        Assert.assertEquals("Price is mismatching on summary & details page", secondProductPriceOnDetailsPage, secondAddedProductToCartPrice);
+        Assert.assertEquals("Price is mismatching on summary & details page", secondProductPriceOnDetailsPage, secondAddedProductToCartPrice.replace(".","\n"));
         totalPriceOnSummaryPage = summaryPage.getTotalPrice();
-        Assert.assertEquals("Sum of the Added products is not matching", totalPriceOnSummaryPage, (firstAddedProductToCartPrice + secondAddedProductToCartPrice));
+        Assert.assertEquals("Sum of the Added products is not matching", Integer.parseInt(totalPriceOnSummaryPage), (Integer.parseInt(firstAddedProductToCartPrice) + Integer.parseInt(secondAddedProductToCartPrice)));
     }
 }

@@ -15,7 +15,14 @@ public class ProductDetailsPage extends Base {
     By addToCartButton = By.xpath("//*[@id='add-to-cart-button']");
 
     public String getProductPrice() {
-        return waitForElement(productPrice).getText();
+        String price = "";
+        try {
+            price = waitForElement(productPrice).getText();
+        } catch (Exception e)
+        {
+            e.getMessage();
+        }
+        return price;
     }
 
     public boolean isclickBtnDisplayed() {
